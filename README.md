@@ -1,4 +1,6 @@
 
+### What this tool does:
+- Use this tool to stream watchmegrow video streams (need valid credentials) & store to disk locally.
 
 ### Dependencies
 - Tested only on windows
@@ -7,7 +9,7 @@
 - valid watchmegrow credentials
 
 ### Installation steps
-- clone this project locally
+- clone this project locally - `git clone https://github.com/brijs/watchmegrow_streamer.git`
 - copy rtmpdump.exe to the project directory
-- update load_credentials.bat with your watchmegrow credentials
-- To run: stream_watchmegrow.bat <cam_num>
+- copy load_credentials.sample.bat & save as `load_credentials.bat` with your watchmegrow credentials
+- To run: `stream_watchmegrow.bat <cam_num>`
