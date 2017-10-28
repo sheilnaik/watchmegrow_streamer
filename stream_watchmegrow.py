@@ -5,8 +5,8 @@ import sys
 import argparse
 import logging
 
-wmg_url = "https://8938.mywatchmegrowvideo.com/index.php"
-wmg_playlist_url = "https://8938.mywatchmegrowvideo.com/ipcameras/playlist.php"
+wmg_url = "https://{}.mywatchmegrowvideo.com/index.php".format(os.environ['WMG_PREFIX'])
+wmg_playlist_url = "https://{}.mywatchmegrowvideo.com/ipcameras/playlist.php".format(os.environ['WMG_PREFIX'])
 post_data = {"username": os.environ['WMG_USERNAME'], 
 			 "password": os.environ['WMG_PASSWORD'], 
 			 "login": "Login"}
@@ -17,10 +17,10 @@ def stream_cam(dir_name, cam_id, cam_num):
 		logging.error("dir(" + dir_name + ") or cam_id(" + cam_id + ") is empty.")
 		return
 
-	rtmpdump_cmd = ['rtmpdump', '-r' , 'rtmp://8938.mywatchmegrowvideo.com/live/',
+	rtmpdump_cmd = ['rtmpdump', '-r' , 'rtmp://{}.mywatchmegrowvideo.com/live/'.format(os.environ['WMG_PREFIX']),
 		'-a',  'live/', '-f', 'WIN 13,0,0,214', '-W',
-		'https://8938.mywatchmegrowvideo.com/jwplayer6/jwplayer.flash.swf',
-		'-p', 'https://8938.mywatchmegrowvideo.com/index.php', '-y', 
+		'https://{}.mywatchmegrowvideo.com/jwplayer6/jwplayer.flash.swf'.format(os.environ['WMG_PREFIX']),
+		'-p', 'https://{}.mywatchmegrowvideo.com/index.php'.format(os.environ['WMG_PREFIX']), '-y', 
 		cam_id, '-v', '-o', dir_name + "/" + str(cam_num) + strftime("_%H-%M-%S_", localtime()) + cam_id + ".flv"]
 
 	logging.info("streaming " + cam_id + " to " + dir_name + " ....")
@@ -31,10 +31,10 @@ def stream_cam(dir_name, cam_id, cam_num):
 if __name__ == "__main__":
 	logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 	parser = argparse.ArgumentParser(description='parse camera id')
-	parser.add_argument('cam_id', type=int, default=1, help='camera_id (1 or 2)')
+	parser.add_argument('cam_id', type=int, default=1, help='camera_id (1 or greater)')
 	args = parser.parse_args()
-	if args.cam_id != 1 and args.cam_id != 2:
-		logging.error ("camera_id must be 1 or 2")
+	if args.cam_id < 1:
+		logging.error ("camera_id must be 1 or greater")
 		sys.exit(1)
 
 
